@@ -1,0 +1,17 @@
+{
+  "name": "video-ascii-art",
+  "version": "1.0.0",
+  "description": "A program to convert mp4 video to ascii art that you can run in the console.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ffmpeg": "^0.0.4",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.3"
+  }
+}
