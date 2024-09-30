@@ -4,8 +4,11 @@ const ffprobePath = require("@ffprobe-installer/ffprobe").path;
 const fs = require("fs");
 const imageToAscii = require("image-to-ascii");
 
+const asciiDirectory = "./frames-ascii";
+
 fffmpeg.setFfmpegPath(sffmpeg);
 fffmpeg.setFfprobePath(ffprobePath);
+let count = 0;
 
 const playAsciiArt = (asciiArtDirectory) => {
   // Work in progress
@@ -22,7 +25,7 @@ const playAsciiArt = (asciiArtDirectory) => {
         if (err) {
           return console.error(err);
         }
-        console.log("\n \n \n \n \n", frame.toString());
+        console.log(frame.toString(), "\n \n \n \n \n");
       });
       // console.log(file[i]);
       i++;
@@ -33,14 +36,14 @@ const playAsciiArt = (asciiArtDirectory) => {
   });
 };
 
-const readAndConvertToAscii = async (rawFramesDirectory) => {
+const readAndConvertToAscii = async (rawFramesDirectory, asciiDirectory) => {
   fs.readdir(rawFramesDirectory, "utf8", (err, files) => {
     files.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
     if (err) {
       return console.error(err);
     }
     files.forEach((file) => {
-      frameToAscii(`./frames-original/${file}`);
+      frameToAscii(`./frames-original/${file}`, asciiDirectory);
     });
   });
 };
@@ -52,8 +55,9 @@ const frameToAscii = async (file) => {
       console.log(converted);
       count++;
       fs.writeFile(
-        `${asciiDir}/frame-${count}`,
+        `${asciiDirectory}/frame-${count}.txt`,
         converted.toString(),
+        { encoding: "utf8" },
         (err) => {
           if (err) {
             console.error(err);
