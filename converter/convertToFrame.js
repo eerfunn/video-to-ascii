@@ -5,10 +5,10 @@ const ffprobePath = require("@ffprobe-installer/ffprobe").path;
 fffmpeg.setFfmpegPath(sffmpeg);
 fffmpeg.setFfprobePath(ffprobePath);
 
-const extractFrames = async (f) => {
+const extractFramesFromVideo = async (videoSource) => {
   // Extract from thumbnail directory
   fffmpeg()
-    .input(f)
+    .input(videoSource)
     .saveToFile("../frames-original/frame-%03d.png")
     .on("progress", (progress) => {
       if (progress.percent) {
@@ -21,24 +21,29 @@ const extractFrames = async (f) => {
 };
 
 const createVideoThumbnail = async (
-  video,
-  thumbnailDir,
-  thumbnailDurSec = 5
+  videoSource,
+  thumbnailDirectory,
+  thumbnailDurationInSeconds = 5
 ) => {
-  console.log("Vid Data" + (await getVideoData(video)));
+  console.log("Video Data" + (await getVideoData(videoSource)));
   return new Promise(async (resolve, reject) => {
-    const { durationInSeconds: duration } = await getVideoData(video);
+    const { durationInSeconds: duration } = await getVideoData(videoSource);
 
-    const startTime = getStartTime(duration, thumbnailDurSec);
+    const startTime = getStartTime(duration, thumbnailDurationInSeconds);
 
     return fffmpeg()
-      .input(video)
+      .input(videoSource)
       .inputOptions([`-ss ${startTime}`])
       .outputOptions([`-t ${thumbnailDurSec}`])
       .noAudio()
-      .output(thumbnailDir)
+      .output(thumbnailDirectory)
       .on("end", resolve)
       .on("error", reject)
       .run();
   });
+};
+
+module.exports = {
+  extractFramesFromVideo,
+  createVideoThumbnail,
 };

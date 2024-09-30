@@ -7,8 +7,9 @@ const imageToAscii = require("image-to-ascii");
 fffmpeg.setFfmpegPath(sffmpeg);
 fffmpeg.setFfprobePath(ffprobePath);
 
-const readFrames = () => {
-  fs.readdir(asciiDir, (err, file) => {
+const playAsciiArt = (asciiArtDirectory) => {
+  // Work in progress
+  fs.readdir(asciiArtDirectory, (err, file) => {
     if (err) {
       return console.error(err);
     }
@@ -17,13 +18,13 @@ const readFrames = () => {
     let i = 0;
 
     const interval = setInterval(() => {
-      // fs.readFile(`${asciiDir}/${file[i]}`, "utf8", (err, frame) => {
-      //   if (err) {
-      //     return console.error(err);
-      //   }
-      //   console.log("\n \n \n \n \n", frame.toString());
-      // });
-      console.log(file[i]);
+      fs.readFile(`${asciiArtDirectory}/${file[i]}`, "utf8", (err, frame) => {
+        if (err) {
+          return console.error(err);
+        }
+        console.log("\n \n \n \n \n", frame.toString());
+      });
+      // console.log(file[i]);
       i++;
       if (i >= file.length) {
         clearInterval(interval);
@@ -32,8 +33,8 @@ const readFrames = () => {
   });
 };
 
-const readOriginalFrame = async () => {
-  fs.readdir(framesDir, "utf8", (err, files) => {
+const readAndConvertToAscii = async (rawFramesDirectory) => {
+  fs.readdir(rawFramesDirectory, "utf8", (err, files) => {
     files.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
     if (err) {
       return console.error(err);
@@ -64,4 +65,10 @@ const frameToAscii = async (file) => {
       );
     });
   });
+};
+
+module.exports = {
+  readAndConvertToAscii,
+  frameToAscii,
+  playAsciiArt,
 };

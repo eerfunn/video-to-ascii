@@ -1,12 +1,12 @@
 const fffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
 
-export const extractAudio = async (v) => {
+export const extractAudio = async (videoSource) => {
   if (fs.existsSync("../audio/audio.mp3")) {
     console.log("Audio directory is not empty.");
   } else {
     fffmpeg()
-      .input(v)
+      .input(videoSource)
       .outputOptions("-ab", "192k")
       .saveToFile("../audio/audio.mp3")
       .on("progress", (progress) => {
