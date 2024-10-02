@@ -3,21 +3,18 @@ const sffmpeg = require("ffmpeg-static");
 const ffprobePath = require("@ffprobe-installer/ffprobe").path;
 const fs = require("fs");
 const path = require("path");
-const imageToAscii = require("image-to-ascii");
+
 const {
   createVideoThumbnail,
   extractFramesFromVideo,
 } = require("./converter/convertToFrame");
-const {
-  readAndConvertToAscii,
-  playAsciiArt,
-} = require("./converter/convertToAscii");
+const { readAndConvertToAscii } = require("./converter/convertToAscii");
 
 const videoDirectory = "./video/video.mp4";
 const thumbnailDirectory = "./thumbnail/thumbs.mp4";
 const framesDir = "./frames-original";
 const asciiDir = "./frames-ascii";
-const dir = "frames-ascii";
+
 fffmpeg.setFfmpegPath(sffmpeg);
 fffmpeg.setFfprobePath(ffprobePath);
 
@@ -29,9 +26,6 @@ const videoAsciiArt = async (videoDirectory, thumbnailDirectory) => {
 
     await readAndConvertToAscii(framesDir, asciiDir);
     console.log("Frames Data: ", await frames);
-    // frames
-    //   ? await readAndConvertToAscii(framesDir)
-    //   : console.log("Can't extract frames from thumbnail");
   } else {
     console.log("Thumbnail Directory Empty");
   }
@@ -44,17 +38,15 @@ const runFunction = async () => {
   await videoAsciiArt(videoDirectory, thumbnailDirectory);
 };
 
-// runFunction();
-
 const checkFrame = async () => {
-  if (`${asciiDir}/frame-90.txt)`) {
+  if (`${asciiDir}/frame-11.txt)`) {
     console.log("File Exist");
   } else {
     console.log("File did not exist");
   }
   console.log(process.cwd());
   fs.readFile(
-    path.join(__dirname, "../video-ascii-art/frames-ascii") + "/frame-11.txt",
+    path.join(__dirname, "../video-ascii-art/frames-ascii") + "/frame-168.txt",
     (err, frame) => {
       if (err) {
         return console.error(err);
@@ -64,5 +56,6 @@ const checkFrame = async () => {
     }
   );
 };
-// playAsciiArt(asciiDir);
+
+// runFunction();
 checkFrame();

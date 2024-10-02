@@ -4,69 +4,52 @@ const ffprobePath = require("@ffprobe-installer/ffprobe").path;
 const fs = require("fs");
 const imageToAscii = require("image-to-ascii");
 
-const asciiDirectory = "./frames-ascii";
-
+const regex =
+  "/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g";
 fffmpeg.setFfmpegPath(sffmpeg);
 fffmpeg.setFfprobePath(ffprobePath);
 let count = 0;
 
-const playAsciiArt = (asciiArtDirectory) => {
-  // Work in progress
-  fs.readdir(asciiArtDirectory, (err, file) => {
-    if (err) {
-      return console.error(err);
-    }
-    file.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-
-    let i = 0;
-
-    const interval = setInterval(() => {
-      fs.readFile(`${asciiArtDirectory}/${file[i]}`, "utf8", (err, frame) => {
-        if (err) {
-          return console.error(err);
-        }
-        console.log(frame.toString(), "\n \n \n \n \n");
-      });
-      // console.log(file[i]);
-      i++;
-      if (i >= file.length) {
-        clearInterval(interval);
-      }
-    }, 33);
-  });
-};
-
 const readAndConvertToAscii = async (rawFramesDirectory, asciiDirectory) => {
-  fs.readdir(rawFramesDirectory, "utf8", (err, files) => {
-    files.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  fs.readdir(rawFramesDirectory, "utf8", async (err, files) => {
+    console.log(files);
     if (err) {
       return console.error(err);
     }
-    files.forEach((file) => {
-      frameToAscii(`./frames-original/${file}`, asciiDirectory);
-    });
+    for await (const file of files) {
+      console.log("I'm reading: ", file);
+      await frameToAscii(`./frames-original/${file}`, asciiDirectory);
+    }
   });
 };
 
-const frameToAscii = async (file) => {
+const frameToAscii = async (file, asciiArtDirectory) => {
   const frame = fs.readFileSync(file);
   return new Promise((resolve, reject) => {
-    imageToAscii(frame, { pixels: ".:" }, (err, converted) => {
-      console.log(converted);
+    imageToAscii(frame, { pixels: ".:" }, async (err, converted) => {
       count++;
-      fs.writeFile(
-        `${asciiDirectory}/frame-${count}.txt`,
-        converted.toString(),
+      console.log("Extracting frame number: ", count);
+
+      await fs.promises.writeFile(
+        `${asciiArtDirectory}/frame-${count}.txt`,
+        converted.replace(regex, ""),
         { encoding: "utf8" },
         (err) => {
+          console.log(`Frames frame-${count}.txt converted`);
           if (err) {
             console.error(err);
             return reject(err);
           } else {
-            return resolve(console.log(`Frames ${frame} converted`));
+            return resolve();
           }
         }
       );
+      if (err) {
+        console.error(err);
+        return reject(err);
+      } else {
+        return resolve();
+      }
     });
   });
 };
@@ -74,5 +57,4 @@ const frameToAscii = async (file) => {
 module.exports = {
   readAndConvertToAscii,
   frameToAscii,
-  playAsciiArt,
 };
