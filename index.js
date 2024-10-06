@@ -57,5 +57,5 @@ const checkFrame = async () => {
   );
 };
 
-// runFunction();
-checkFrame();
+runFunction();
+// checkFrame();
