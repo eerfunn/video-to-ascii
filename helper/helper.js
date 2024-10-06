@@ -9,7 +9,7 @@ fffmpeg.setFfprobePath(ffprobePath);
 
 const getVideoData = async (videoSource) => {
   return new Promise((resolve, reject) => {
-    fffmpeg.ffprobe(videoSource, (error, vidInfo) => {
+    return fffmpeg.ffprobe(videoSource, (error, vidInfo) => {
       if (error) {
         console.log(error);
         return reject(error);
@@ -43,8 +43,25 @@ const getRandomIntegerInRange = (min, max) => {
   return Math.floor(Math.random() * (maxInt - minInt + 1) + minInt);
 };
 
+const sortArray = async (arr) => {
+  const temp = [];
+  let maxValue = "";
+  let minValue = "";
+  for (let i = 0; i <= arr.length; i++) {
+    for (let x = 0; x <= arr.length; x++) {
+      maxValue = arr[i];
+      minValue = arr[x];
+      if (maxValue < minValue && maxValue != minValue) {
+        temp.push(maxValue);
+      }
+    }
+  }
+  return temp;
+};
+
 module.exports = {
   getVideoData,
   getStartTime,
   getRandomIntegerInRange,
+  sortArray,
 };

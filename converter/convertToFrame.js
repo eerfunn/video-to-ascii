@@ -8,7 +8,7 @@ fffmpeg.setFfprobePath(ffprobePath);
 
 const extractFramesFromVideo = async (videoSource) => {
   // Extract from thumbnail directory
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     return fffmpeg()
       .input(videoSource)
       .saveToFile("./frames-original/frame-%03d.png")
@@ -31,13 +31,14 @@ const extractFramesFromVideo = async (videoSource) => {
 const createVideoThumbnail = async (
   videoSource,
   thumbnailDirectory,
-  thumbnailDurationInSeconds = 3
+  thumbnailDurationInSeconds = 15
 ) => {
-  console.log("Video Data" + (await getVideoData(videoSource)));
   return new Promise(async (resolve, reject) => {
     const { durationInSeconds: duration } = await getVideoData(videoSource);
 
     const startTime = getStartTime(duration, thumbnailDurationInSeconds);
+    console.log("Duration is: ", duration);
+    console.log("Start Time is: ", startTime);
 
     return fffmpeg()
       .input(videoSource)
