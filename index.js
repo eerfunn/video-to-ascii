@@ -9,11 +9,13 @@ const {
   extractFramesFromVideo,
 } = require("./converter/convertToFrame");
 const { readAndConvertToAscii } = require("./converter/convertToAscii");
+const { extractAudio } = require("./converter/extractAudio");
 
 const videoDirectory = "./video/video.mp4";
 const thumbnailDirectory = "./thumbnail/thumbs.mp4";
 const framesDir = "./frames-original";
 const asciiDir = "./frames-ascii";
+const audioDir = "./audio/audio.mp3";
 
 fffmpeg.setFfmpegPath(sffmpeg);
 fffmpeg.setFfprobePath(ffprobePath);
@@ -23,8 +25,8 @@ const videoAsciiArt = async (videoDirectory, thumbnailDirectory) => {
   await createVideoThumbnail(videoDirectory, thumbnailDirectory);
   if (fs.readFileSync(thumbnailDirectory)) {
     const frames = await extractFramesFromVideo(thumbnailDirectory);
-
     await readAndConvertToAscii(framesDir, asciiDir);
+    await extractAudio(videoDirectory);
     console.log("Frames Data: ", await frames);
   } else {
     console.log("Thumbnail Directory Empty");
@@ -58,4 +60,5 @@ const checkFrame = async () => {
 };
 
 runFunction();
+// extractAudio(videoDirectory, audioDir);
 // checkFrame();

@@ -26,31 +26,39 @@ const readAndConvertToAscii = async (rawFramesDirectory, asciiDirectory) => {
 const frameToAscii = async (file, asciiArtDirectory) => {
   const frame = fs.readFileSync(file);
   return new Promise((resolve, reject) => {
-    imageToAscii(frame, { pixels: ".:" }, async (err, converted) => {
-      count++;
-      console.log("Extracting frame number: ", count);
+    imageToAscii(
+      frame,
+      {
+        pixels: ".:i",
+        size: { width: "150%" },
+        size_options: { preserve_aspect_ratio: true },
+      },
+      async (err, converted) => {
+        count++;
+        console.log("Extracting frame number: ", count);
 
-      await fs.promises.writeFile(
-        `${asciiArtDirectory}/frame-${count}.txt`,
-        converted.replace(regex, ""),
-        { encoding: "utf8" },
-        (err) => {
-          console.log(`Frames frame-${count}.txt converted`);
-          if (err) {
-            console.error(err);
-            return reject(err);
-          } else {
-            return resolve();
+        await fs.promises.writeFile(
+          `${asciiArtDirectory}/frame-${count}.txt`,
+          converted.replace(regex, ""),
+          { encoding: "utf8" },
+          (err) => {
+            console.log(`Frames frame-${count}.txt converted`);
+            if (err) {
+              console.error(err);
+              return reject(err);
+            } else {
+              return resolve();
+            }
           }
+        );
+        if (err) {
+          console.error(err);
+          return reject(err);
+        } else {
+          return resolve();
         }
-      );
-      if (err) {
-        console.error(err);
-        return reject(err);
-      } else {
-        return resolve();
       }
-    });
+    );
   });
 };
 
