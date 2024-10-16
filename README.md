@@ -9,12 +9,24 @@ How to use:
 2. Type and enter "npm run start" to start converting the video to ascii art
 3. Type and enter "npm run play" to start run the generated ascii art in your console/terminal.
 
+Note:
+
+```
+Higher resolution require higher hardware specs.
+```
+
 ## Demo:
 
-<img align="center" alt="HSR Sparkle Phony Art" src="https://raw.githubusercontent.com/eerfunn/image-repo/main/video-ascii-art/suisei-phony.png" />
+<img align="center" alt="Suisei Art Demo" src="https://raw.githubusercontent.com/eerfunn/image-repo/main/video-ascii-art/suisei-phony.png" />
 <img align="center" alt="Hoshimachi Suisei Phony Ascii Art Demo" src="https://raw.githubusercontent.com/eerfunn/image-repo/main/video-ascii-art/suisei-phony-0.png" />
 <!-- To be replaced with Demo image -->
 
 V.0.0.1
 
 In development.
+
+---
+
+Issue:
+
+- Interval for console.log is not working properly, this makes the fps inconsistent and different than what user choose (Or my laptop just too old lmao)
