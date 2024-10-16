@@ -59,9 +59,15 @@ const sortArray = async (arr) => {
   return temp;
 };
 
+const fpsCalc = (fps) => {
+  let realFPS = 1000 / fps;
+  return realFPS;
+};
+
 module.exports = {
   getVideoData,
   getStartTime,
   getRandomIntegerInRange,
   sortArray,
+  fpsCalc,
 };

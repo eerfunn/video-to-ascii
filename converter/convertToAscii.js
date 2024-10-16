@@ -29,9 +29,11 @@ const frameToAscii = async (file, asciiArtDirectory) => {
     imageToAscii(
       frame,
       {
-        pixels: ".:i",
-        size: { width: "150%" },
-        size_options: { preserve_aspect_ratio: true },
+        pixels: ".:",
+        size: { height: "150%" },
+        size_options: {
+          preserve_aspect_ratio: true,
+        },
       },
       async (err, converted) => {
         count++;

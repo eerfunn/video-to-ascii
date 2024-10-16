@@ -22,15 +22,15 @@ fffmpeg.setFfprobePath(ffprobePath);
 
 const videoAsciiArt = async (videoDirectory, thumbnailDirectory) => {
   // Convert Video to Thumbnail for Testing
-  await createVideoThumbnail(videoDirectory, thumbnailDirectory);
-  if (fs.readFileSync(thumbnailDirectory)) {
-    const frames = await extractFramesFromVideo(thumbnailDirectory);
-    await readAndConvertToAscii(framesDir, asciiDir);
-    await extractAudio(videoDirectory);
-    console.log("Frames Data: ", await frames);
-  } else {
-    console.log("Thumbnail Directory Empty");
-  }
+  // await createVideoThumbnail(videoDirectory, thumbnailDirectory);
+  // if (fs.readFileSync(thumbnailDirectory)) {
+  //   const frames = await extractFramesFromVideo(thumbnailDirectory);
+  await readAndConvertToAscii(framesDir, asciiDir);
+  await extractAudio(videoDirectory, audioDir);
+  // console.log("Frames Data: ", await frames);
+  // } else {
+  //   console.log("Thumbnail Directory Empty");
+  // }
 
   // Convert Frames from thumbnail
   // Convert raw Frames to Ascii Art
