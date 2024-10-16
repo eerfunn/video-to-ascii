@@ -50,7 +50,7 @@ const playAsciiArt = async (asciiArtDirectory) => {
             return frame;
           })
           .then((x) => {
-            console.log("\n\n\n\n\n");
+            console.log("\n\n\n\n\n\n");
             console.log(x.toString());
             console.log(file[i]);
           });
@@ -58,7 +58,7 @@ const playAsciiArt = async (asciiArtDirectory) => {
         if (i >= file.length) {
           clearInterval(interval);
         }
-      }, 24); // 24 fps
+      }, 25); // 24 fps
     }
   });
 };
